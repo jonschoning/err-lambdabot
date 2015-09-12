@@ -19,7 +19,7 @@ class lambdabot(BotPlugin):
     def lambdabot_eval(self, msg, match):
         return self.lambdabot_go(msg, msg.body)
 
-    @re_botcmd(pattern=r"^!type|^!kind|^!pl|^!unpl|^!unmtl|^!undo|^!do|^!let|^!define|^!undefine|^!djinn|^!pretty", prefixed=False, flags=re.IGNORECASE)
+    @re_botcmd(pattern=r"^!type|^!kind|^!pl|^!unpl|^!unmtl|^!undo|^!do|^!let|^!define|^!undefine|^!djinn|^!pretty|^!src", prefixed=False, flags=re.IGNORECASE)
     def lambdabot_cmd(self, msg, match):
         return self.lambdabot_go(msg, msg.body)
 
