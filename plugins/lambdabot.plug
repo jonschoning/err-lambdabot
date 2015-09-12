@@ -1,0 +1,9 @@
+[Core]
+Name = lambdabot
+Module = lambdabot
+
+[Documentation]
+Description = provides access to lambdabot
+
+[Python]
+Version = 2+

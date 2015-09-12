@@ -1,0 +1,39 @@
+import logging
+
+_nick = '<nick>'
+_pass = '<pass>'
+_server = '<server>'
+_serverchat = '<serverchat>'
+_port = 5222
+_room = '<room'
+
+BACKEND = 'XMPP'
+FILE_PATH = '.'
+BOT_DATA_DIR = '{}/data'.format(FILE_PATH)
+BOT_EXTRA_PLUGIN_DIR = '{}/plugins'.format(FILE_PATH)
+AUTOINSTALL_DEPS = True
+BOT_LOG_FILE = '{}/err.log'.format(FILE_PATH)
+BOT_LOG_LEVEL = logging.WARN
+BOT_LOG_SENTRY = False
+SENTRY_DSN = ''
+SENTRY_LOGLEVEL = BOT_LOG_LEVEL
+BOT_ASYNC = False
+BOT_IDENTITY = {
+    'username': _nick+'@'+_server,
+    'password': _pass,
+    'server': (_server, _port)}
+BOT_ADMINS = (_nick+'@'+_server)
+CHATROOM_PRESENCE = (_room+'@'+_serverchat, _room+'@'+_serverchat)
+CHATROOM_FN = _nick
+BOT_PREFIX = 'Î'
+ACCESS_CONTROLS_DEFAULT = {}
+ACCESS_CONTROLS = {'status': {'allowmuc': False}, 
+                   'about': {'allowmuc': False}, 
+                   'uptime':{'allowmuc': False},  
+                   'help': {'allowmuc': False} }
+DIVERT_TO_PRIVATE = ()
+CHATROOM_RELAY = {}
+REVERSE_CHATROOM_RELAY = {}
+MESSAGE_SIZE_LIMIT = 10000
+XMPP_CA_CERT_FILE = None
+XMPP_KEEPALIVE_INTERVAL = 300
