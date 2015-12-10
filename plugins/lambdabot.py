@@ -46,7 +46,7 @@ class lambdabot(BotPlugin):
         logging.info(presence)
 
     def callback_room_joined(self, room):
-        logging.warning(room)
+        logging.info(room)
 
     # def callback_message(self, msg):
     #     pass
