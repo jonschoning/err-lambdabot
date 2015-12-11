@@ -4,3 +4,4 @@
 "*.log"
 *.db
 config.py
+config.livecoding.py
