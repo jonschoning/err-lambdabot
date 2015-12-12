@@ -7,10 +7,10 @@ class lambdabot(BotPlugin):
 
     def activate(self):
         super(lambdabot, self).activate()
-        self.start_poller(3, self.keepalive)
+        # self.start_poller(120, self.keepalive)
 
-    def keepalive(self):
-        self._bot.change_presence(ONLINE, '')
+    # def keepalive(self):
+    #     self._bot.change_presence(ONLINE, '')
 
     @re_botcmd(pattern=r"^(`|```)\s*> ", prefixed=False, flags=re.IGNORECASE)
     def lambdabot_eval_cmd(self, msg, match):
