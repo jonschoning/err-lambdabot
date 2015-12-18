@@ -34,7 +34,7 @@ class lambdabot(BotPlugin):
 
     def lambdabot_go(self, msg, txt):
         txt_shell = txt
-        txt_shell = re.sub(r"^(```|`)","", txt_shell)
+        txt_shell = re.sub(r"^\s*(```|`)\s*","", txt_shell)
         txt_shell = txt_shell.replace(r"```","")
         txt_shell = re.sub(r"`\s*$","", txt_shell)
         txt_shell = re.sub(":(k|kind)","@kind", txt_shell)
