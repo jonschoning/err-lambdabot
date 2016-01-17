@@ -47,7 +47,7 @@ class lambdabot(BotPlugin):
         out = stdout.decode(encoding="utf-8", errors="ignore")
         # logging.info(out)
 
-        outSlack = "\`\`\`"+out.replace("`","\`")+"\`\`\`"
+        outSlack = "\`\`\`"+out.replace("*","\*").replace("`","\`")+"\`\`\`"
         logging.info(outSlack)
 
         if (len(out)>0):
