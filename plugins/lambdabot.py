@@ -35,14 +35,16 @@ class lambdabot(BotPlugin):
         txt_shell = txt_shell.replace('”','"')
         logging.info(txt_shell)
 
+        trusted = ['microlens','random','lambdabot-trusted','time', 'stm']
+        
         env = os.environ
         env["LC_CTYPE"] = "C"
-        p_lambdabot = subprocess.Popen(['lambdabot', '-l WARNING', '-e', txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
+        p_lambdabot = subprocess.Popen(['lambdabot']+['-t '+ x for x in trusted]+['-l WARNING', '-t lens','-t random','-t lambdabot-trusted','-e', txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
 
         stdout, stderr = p_lambdabot.communicate()
         p_lambdabot.stdout.close()
         
-        out = stdout.decode(encoding="ascii", errors="ignore")
+        out = stdout.decode(encoding="utf-8", errors="ignore")
         # logging.info(out)
 
         outSlack = "\`\`\`"+out.replace("`","\`")+"\`\`\`"
