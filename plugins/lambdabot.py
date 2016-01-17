@@ -1,24 +1,16 @@
 from errbot import BotPlugin, botcmd, re_botcmd, logging
 from errbot.backends.base import ONLINE
 
-import subprocess, re
+import subprocess, re, os
 
 class lambdabot(BotPlugin):
 
     def activate(self):
         super(lambdabot, self).activate()
-        # self.start_poller(120, self.keepalive)
-
-    # def keepalive(self):
-    #     self._bot.change_presence(ONLINE, '')
 
     @re_botcmd(pattern=r"^(`|```)\s*> ", prefixed=False, flags=re.IGNORECASE)
     def lambdabot_eval_cmd(self, msg, match):
         return self.lambdabot_go(msg, msg.body)
-
-    # @re_botcmd(pattern=r"^(`|```)\s*@(type|kind|pl|unpl|unmtl|undo|do|let|define|undefine|djinn|pretty|src)", prefixed=False, flags=re.IGNORECASE)
-    # def lambdabot_reg_cmd(self, msg, match):
-    #     return self.lambdabot_go(msg, msg.body)
 
     @re_botcmd(pattern=r"^(`|```)\s*@(?!(list|help)\s*(`|```)?\s*$)", prefixed=False, flags=re.IGNORECASE)
     def lambdabot_reg_cmd(self, msg, match):
@@ -30,7 +22,7 @@ class lambdabot(BotPlugin):
 
     @re_botcmd(pattern=r"^(`|```)\s*(!|:|@)(list|help)\s*(`|```)?\s*$", prefixed=False, flags=re.IGNORECASE)
     def lambdabot_list(self, msg, match):
-        return "\`\`\`:t | @type | :k | @kind | > (expr) | @pl | @unpl | @unmtl | @undo | @do | @let | @define | @undefine | @djinn | @pretty | @src\`\`\`"
+        return "\`\`\`:t | @type | :k | @kind | > (expr) | @hoogle | @pl | @unpl | @unmtl | @undo | @do | @let | @define | @undefine | @djinn | @pretty | @src\`\`\`"
 
     def lambdabot_go(self, msg, txt):
         txt_shell = txt
@@ -43,17 +35,18 @@ class lambdabot(BotPlugin):
         txt_shell = txt_shell.replace('”','"')
         logging.info(txt_shell)
 
-        p_lambdabot = subprocess.Popen(['lambdabot', '-l WARNING', '-e', txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        p_decode    = subprocess.Popen(['runghc', self.bot_config.BOT_EXTRA_PLUGIN_DIR + '/lambdabot-decode.hs'], stdin=p_lambdabot.stdout, stdout=subprocess.PIPE)
+        env = os.environ
+        env["LC_CTYPE"] = "C"
+        p_lambdabot = subprocess.Popen(['lambdabot', '-l WARNING', '-e', txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
 
+        stdout, stderr = p_lambdabot.communicate()
         p_lambdabot.stdout.close()
-        stdout, stderr = p_decode.communicate()
-        p_decode.stdout.close()
         
-        out = stdout.decode(encoding="utf-8", errors="ignore")
-        logging.info(out)
+        out = stdout.decode(encoding="ascii", errors="ignore")
+        # logging.info(out)
 
-        outSlack = "\`\`\`"+out+"\`\`\`"
+        outSlack = "\`\`\`"+out.replace("`","\`")+"\`\`\`"
+        logging.info(outSlack)
 
         if (len(out)>0):
             return outSlack
