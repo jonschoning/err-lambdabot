@@ -16,13 +16,13 @@ class lambdabot(BotPlugin):
     def lambdabot_reg_cmd(self, msg, match):
         return self.lambdabot_go(msg, msg.body)
 
-    @re_botcmd(pattern=r"^(`|```)\s*:(t|k|type|kind) ", prefixed=False, flags=re.IGNORECASE)
+    @re_botcmd(pattern=r"^(`|```)\s*:(t|k|i|type|kind|info) ", prefixed=False, flags=re.IGNORECASE)
     def lambdabot_reg_cmd_short(self, msg, match):
         return self.lambdabot_go(msg, msg.body)
 
     @re_botcmd(pattern=r"^(`|```)\s*(!|:|@)(list|help)\s*(`|```)?\s*$", prefixed=False, flags=re.IGNORECASE)
     def lambdabot_list(self, msg, match):
-        return "\`\`\`:t | @type | :k | @kind | > (expr) | @hoogle | @pl | @unpl | @unmtl | @undo | @do | @let | @define | @undefine | @djinn | @pretty | @src\`\`\`"
+        return "\`\`\`:t | @type | :k | @kind | :i | @info | > (expr) | @hoogle | @pl | @unpl | @unmtl | @undo | @do | @let | @define | @undefine | @djinn | @pretty | @src\`\`\`"
 
     def lambdabot_go(self, msg, txt):
         txt_shell = txt
@@ -31,18 +31,25 @@ class lambdabot(BotPlugin):
         txt_shell = re.sub(r"`\s*$","", txt_shell)
         txt_shell = re.sub(":(k|kind)","@kind", txt_shell)
         txt_shell = re.sub(":(t|type)","@type", txt_shell)
+        txt_shell = re.sub("@(i|info)",":i", txt_shell)
         txt_shell = txt_shell.replace('“','"')
         txt_shell = txt_shell.replace('”','"')
         logging.info(txt_shell)
-
         trusted = ['base','bytestring','containers','array','microlens','random','lambdabot-trusted','time', 'stm']
-        
+
         env = os.environ
         env["LC_CTYPE"] = "C"
-        p_lambdabot = subprocess.Popen(['lambdabot']+['-t'+ x for x in trusted]+['-lWARNING', '-e'+txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
+        stdout=None
+        stderr=None
 
-        stdout, stderr = p_lambdabot.communicate()
-        p_lambdabot.stdout.close()
+        if (re.match(":(i|info)", txt_shell)):
+            p_lambdabot = subprocess.Popen(['ghc']+['-e', txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
+            stdout, stderr = p_lambdabot.communicate()
+            p_lambdabot.stdout.close()
+        else:
+            p_lambdabot = subprocess.Popen(['lambdabot']+['-t'+ x for x in trusted]+['-lWARNING', '-e'+txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
+            stdout, stderr = p_lambdabot.communicate()
+            p_lambdabot.stdout.close()
         
         out = stdout.decode(encoding="utf-8", errors="ignore")
         # logging.info(out)
