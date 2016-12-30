@@ -35,19 +35,20 @@ class lambdabot(BotPlugin):
         txt_shell = txt_shell.replace('“','"')
         txt_shell = txt_shell.replace('”','"')
         logging.info(txt_shell)
-        trusted = ['base','bytestring','containers','array','microlens','random','lambdabot-trusted','time', 'stm']
 
         env = os.environ
         env["LC_CTYPE"] = "C"
         stdout=None
         stderr=None
+        cwd = '/home/jon/fs/git/lambdabot-5.1/'
+
 
         if (re.match(":(i|info)", txt_shell)):
-            p_lambdabot = subprocess.Popen(['ghc']+['-e', txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
+            p_lambdabot = subprocess.Popen(['stack','exec','ghc','--','-e',txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, cwd=cwd)
             stdout, stderr = p_lambdabot.communicate()
             p_lambdabot.stdout.close()
         else:
-            p_lambdabot = subprocess.Popen(['lambdabot']+['-t'+ x for x in trusted]+['-lWARNING', '-e'+txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env)
+            p_lambdabot = subprocess.Popen(['stack', 'exec', 'lambdabot','--','-lWARNING','-e'+txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, cwd=cwd)
             stdout, stderr = p_lambdabot.communicate()
             p_lambdabot.stdout.close()
         
