@@ -1,0 +1,33 @@
+flags: {}
+extra-package-dbs: []
+packages: 
+  - '.'
+extra-deps:
+  - lambdabot-core-5.1
+  - lambdabot-haskell-plugins-5.1
+  - lambdabot-irc-plugins-5.1
+  - lambdabot-misc-plugins-5.1
+  - lambdabot-novelty-plugins-5.1
+  - lambdabot-reference-plugins-5.1
+  - lambdabot-social-plugins-5.1
+  - IOSpec-0.3
+  - arrows-0.4.4.1
+  - brainfuck-0.1.0.3
+  - lambdabot-trusted-5.1
+  - mueval-0.9.3
+  - prim-uniq-0.1.0.1
+  - show-0.6
+  - unlambda-0.1.4.2
+  - QuickCheck-safe-0.1.0.1
+  - Stream-0.4.7
+  - lazysmallcheck-0.6
+  - dependent-sum-template-0.0.0.5
+  - QuickCheck-2.8.2
+  - dependent-sum-0.3.2.2
+  - haskell-src-exts-1.17.1
+  - hoogle-5.0.1
+  - network-uri-flag-0.1
+
+
+# allow-newer: true
+resolver: nightly-2016-12-27

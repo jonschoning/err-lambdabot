@@ -1,0 +1,57 @@
+name: lambdabot
+version: '5.1'
+synopsis: Lambdabot is a development tool and advanced IRC bot
+description: ! 'Lambdabot is an IRC bot written over several years by
+
+  those on the #haskell IRC channel.
+
+
+  It operates as a command line tool, embedded in an editor,
+
+  embedded in GHCi, via internet relay chat and on the web.'
+category: Development, Web
+author: James Cook
+maintainer: James Cook <mokus@deepbondi.net>
+license: GPL
+github: lambdabot/lambdabot.git
+homepage: http://haskell.org/haskellwiki/Lambdabot
+tested-with: GHC==7.8.4 GHC==7.10.3
+extra-source-files:
+- src/Modules.hs
+- scripts/ghci.sh
+- scripts/genhaddock.sh
+- scripts/GenHaddock.hs
+- scripts/vim/bot
+- scripts/vim/pl
+- scripts/vim/README
+- scripts/vim/run
+- scripts/vim/runwith
+- scripts/vim/typeOf
+- Changelog
+- README.md
+ghc-options:
+- -Wall
+- -threaded
+dependencies:
+- base >=3 && <5
+- lambdabot-core >=5.1 && <5.2
+- lambdabot-haskell-plugins >=5.1 && <5.2
+- lambdabot-irc-plugins >=5.1 && <5.2
+- lambdabot-misc-plugins >=5.1 && <5.2
+- lambdabot-novelty-plugins >=5.1 && <5.2
+- lambdabot-reference-plugins >=5.1 && <5.2
+- lambdabot-social-plugins >=5.1 && <5.2
+- mtl >=2
+- lens
+executables:
+  lambdabot:
+    main: Main.hs
+    source-dirs: src
+data-files:
+- scripts/online.rc
+- State/haddock
+- State/Pristine.hs.706
+- State/Pristine.hs.708
+- State/Pristine.hs.default
+- State/source
+- State/vixen
