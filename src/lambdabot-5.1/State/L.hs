@@ -59,20 +59,34 @@ import Numeric
 import ShowFun
 import System.Random
 import Lambdabot.Plugin.Haskell.Eval.Trusted
-import Text.PrettyPrint.HughesPJ hiding (empty)
+import Text.PrettyPrint.HughesPJ hiding (empty, first, (<>))
 import Text.Printf
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as BSC
 import qualified Data.ByteString.Lazy as BSL
 import qualified Data.ByteString.Lazy.Char8 as BSLC
-import qualified Data.Foldable
+import Data.Foldable
 import qualified Data.IntMap as IM
 import qualified Data.IntSet as IS
 import qualified Data.Map as M
 import qualified Data.Sequence
 import qualified Data.Set as S
-import qualified Data.Traversable
+import Data.Traversable
 
 import Control.Lens
+
+import Control.Monad.Trans.Class
+import Control.Monad.Trans.Cont
+import Control.Monad.Trans.Error
+import Control.Monad.Trans.Except
+import Control.Monad.Trans.Identity
+import Control.Monad.Trans.List
+import Control.Monad.Trans.Maybe
+import Control.Monad.Trans.RWS
+import Control.Monad.Trans.Reader
+import Control.Monad.Trans.State
+import Control.Monad.Trans.Writer
+
+
 
 {-# LINE 1 "<local>" #-}
