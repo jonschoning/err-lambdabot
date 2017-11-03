@@ -29,22 +29,25 @@ class lambdabot(BotPlugin):
         txt_shell = re.sub(r"^\s*(```|`)\s*","", txt_shell)
         txt_shell = txt_shell.replace(r"```","")
         txt_shell = re.sub(r"`\s*$","", txt_shell)
-        txt_shell = re.sub(":(k|kind)","@kind", txt_shell)
-        txt_shell = re.sub(":(t|type)","@type", txt_shell)
-        txt_shell = re.sub("@(i|info)",":i", txt_shell)
+        txt_shell = re.sub(":(k\s|kind\s)","@kind ", txt_shell)
+        txt_shell = re.sub(":(t\s|type\s)","@type ", txt_shell)
+        txt_shell = re.sub("@(i\s|info\s)",":i ", txt_shell)
         txt_shell = txt_shell.replace('“','"')
         txt_shell = txt_shell.replace('”','"')
         logging.info(txt_shell)
 
         env = os.environ
-        env["LC_CTYPE"] = "C"
+        if (re.match("@hoogle .*", txt_shell)):
+            pass
+        else:
+            env["LC_CTYPE"] = "C"
         stdout=None
         stderr=None
         cwd = '/home/jon/fs/git/lambdabot-5.1/'
 
 
         if (re.match(":(i|info)", txt_shell)):
-            p_lambdabot = subprocess.Popen(['stack','exec','ghc','--','-e',txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, cwd=cwd)
+            p_lambdabot = subprocess.Popen(['stack','exec','ghc','--','-w', '-e',txt_shell], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=env, cwd=cwd)
             stdout, stderr = p_lambdabot.communicate()
             p_lambdabot.stdout.close()
         else:
@@ -54,6 +57,10 @@ class lambdabot(BotPlugin):
         
         out = stdout.decode(encoding="utf-8", errors="ignore")
         # logging.info(out)
+
+        out_lines = out.splitlines()
+        if(len(out_lines) > 25):
+            out = '\n'.join(out_lines[:25]) + '\n [ +' + str(len(out_lines) - 25) + ' lines ]'
 
         outSlack = "\`\`\`"+out.replace("*","\*").replace("`","\`")+"\`\`\`"
         logging.info(outSlack)
